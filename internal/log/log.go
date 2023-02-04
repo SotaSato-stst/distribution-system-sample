@@ -92,6 +92,7 @@ func (l *Log) Append(record *api.Record) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return off, err
 }
 
@@ -105,9 +106,11 @@ func (l *Log) Read(off uint64) (*api.Record, error) {
 			break
 		}
 	}
-	if s == nil || s.nextOffset <= off {
+
+	if s == nil {
 		return nil, api.ErrOffsetOutOfRange{Offset: off}
 	}
+
 	return s.Read(off)
 }
 
